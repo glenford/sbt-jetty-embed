@@ -1,5 +1,6 @@
 
-package sbt.jettyembed
+package net.usersource.jettyembed
+//package sbt.jettyembed
 
 import java.util.jar.{Manifest,Attributes}
 import java.io.File
