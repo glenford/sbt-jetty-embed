@@ -16,6 +16,10 @@ Important Note
 Requires SBT 0.7.5RC0 or later.  There are bugs in earlier versions of sbt
 which will impact the behaviour of this plugin.
 
+
+Limitations
+-----------
+
 Currently only supports Jetty-6
 
 
@@ -26,28 +30,43 @@ Clone the source
 
 	$ git clone git://github.com/glenford/sbt-jetty-embed.git
 
-Build the plugin
+Build the plugin and push to your local ivy2 repo.
 
 	$ cd sbt-jetty-embed/plugin
 	$ sbt update publish-local
 
 
-Examples
---------
-
-basic-project - demonstrates the most basic use of the plugin
-
 
 How to use in your own project
 ------------------------------
 
-Build the plugin as above
+Look at the basic-project example if you want to skip direct to code.
+
+Build the plugin as described above
 
 Extend the plugin instead of DefaultWebProject
 
-Extract the startup code into your project
+	import sbt._
+	import net.usersource.jettyembed.JettyEmbedWebProject
+	
+	class BasicProject(info :ProjectInfo) extends JettyEmbedWebProject(info) with IdeaProject
+
+
+Create the plugins directory
+
+	mkdir project/plugins
+        vi project/plugins/Plugins.scala
+
+	import sbt._
+
+	class Plugins(info: ProjectInfo) extends PluginDefinition(info) {
+  		val jettyEmbeddedWar = "net.usersource" % "jetty-embed-plugin" % "0.1"
+	}
+
+Update to ensure the jetty libs are downloaded and extract the startup code into your project
 
 	sbt
+	> update
 	> jetty-embed-prepare
 
 
@@ -64,7 +83,7 @@ Then run your new war
 License
 -------
 
-Apache 2 ....
+The sbt-jetty-embed plugin is licensed under the Apache 2 License
 
 
 
