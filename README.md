@@ -22,6 +22,10 @@ Limitations
 
 Currently only supports Jetty-6
 
+Internally there are some hardwired dependencies on the plugin versioning
+beaware if you up the version you will need to update in the code.  This
+will be addressed at a later time, this is a very early version.
+
 
 How to build the plugin
 -----------------------
