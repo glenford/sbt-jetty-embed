@@ -9,33 +9,49 @@ into your source tree, which provides the jetty embed code.  It then overrides
 the webapp prepare task to also unpack the jetty jars into the root of the
 war file.
 
+
 How to build the plugin
 -----------------------
 
-todo....
+Clone the source
+
+  $ git clone git://github.com/glenford/sbt-jetty-embed.git
+
+Build the plugin
+
+  $ cd sbt-jetty-embed/plugin
+  $ sbt update publish-local
 
 
+Examples
+--------
 
-How to use
-----------
+basic-project - demonstrates the most basic use of the plugin
+(TODO) jetty-7-project - shows how to define alternate jetty to use
+(TODO) custom-startup-project - shows how to specify your own startup class
 
-Enable the plugin
 
-Mixin the plugin trait
+How to use in your own project
+------------------------------
+
+Build the plugin as above
+
+Extend the plugin instead of DefaultWebProject
 
 Extract the startup code into your project
 
-sbt
-> jetty-embed-prepare
+  sbt
+  > jetty-embed-prepare
 
 
 Then package your code as normal
 
-sbt
-> package
+  sbt
+  > package
 
 Then run your new war
-$ java -jar your_new.war
+
+  $ java -jar your_new.war
 
 
 License
