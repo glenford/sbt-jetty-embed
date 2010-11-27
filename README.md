@@ -49,13 +49,13 @@ Extend the plugin instead of DefaultWebProject
 	import sbt._
 	import net.usersource.jettyembed.JettyEmbedWebProject
 	
-	class BasicProject(info :ProjectInfo) extends JettyEmbedWebProject(info) with IdeaProject
+	class BasicProject(info :ProjectInfo) extends JettyEmbedWebProject(info)
 
 
 Create the plugins directory
 
 	mkdir project/plugins
-        vi project/plugins/Plugins.scala
+	vi project/plugins/Plugins.scala
 
 	import sbt._
 
@@ -77,8 +77,17 @@ Then package your code as normal
 
 Then run your new war
 
-	$ java -jar your_new.war
+	$ java -jar target/scala_2.8.1/basic-project_2.8.1-0.1.war 
+	2010-11-27 16:03:49.634:INFO::Logging to STDERR via org.mortbay.log.StdErrLog
+	2010-11-27 16:03:49.687:INFO::jetty-6.1.x
+	2010-11-27 16:03:50.078:INFO::Extract file:/***/***/***/sbt-jetty-embed/basic-project/target/scala_2.8.1/basic-project_2.8.1-0.1.war to /var/folders/jO/jOLrkn6pHZmYOvRY0t8jdE+++TI/-Tmp-/Jetty_0_0_0_0_8080_basic.project_2.8.1.0.1.war____j5kafr/webapp
+	2010-11-27 16:03:50.546:INFO::NO JSP Support for /, did not find org.apache.jasper.servlet.JspServlet
+	2010-11-27 16:03:50.716:INFO::Started SocketConnector@0.0.0.0:8080
 
+
+You can override the default port of 8080 by using -DjettyPort e.g.
+
+	$ java -DjettyPort=8000 -jar target/scala_2.8.1/basic-project_2.8.1-0.1.war 
 
 License
 -------
