@@ -13,14 +13,14 @@ class JettyEmbedWebProject( info: ProjectInfo ) extends DefaultWebProject(info) 
 
   val description = "Creates a war with embedded jetty"
 
-  val pluginJar = "project" / "plugins" / "lib_managed" / "scala_2.7.7" / "standalonewar-0.1.jar"
+  val pluginJar = "project" / "plugins" / "lib_managed" / "scala_2.7.7" / "jetty-embed-plugin-0.1.jar"
 
   val jettyEmbedVersion = "6.1.22"
   val jettyEmbedDependencies = "org.mortbay.jetty" % "jetty" % jettyEmbedVersion % "jettyEmbed, compile"
   val jettyEmbedConf = config("jettyEmbed")
   def jettyEmbedClasspath = managedClasspath(jettyEmbedConf)
   
-  val warMainClass = "net.usersource.war.Startup"
+  val warMainClass = "net.usersource.jettyembed.Startup"
   val warClassPath = "WEB_INF/classes/ WEB_INF/lib/"
   val warManifestVersion = "1.0"
 
@@ -51,6 +51,7 @@ class JettyEmbedWebProject( info: ProjectInfo ) extends DefaultWebProject(info) 
       val webInfPath = warPath / "WEB-INF"
       val webLibDirectory = webInfPath / "lib"
       val classesTargetDirectory = webInfPath / "classes"
+      val startupFile = classesTargetDirectory / "net" / "usersource" / "jettyembed" / "Startup.class"
 
       val (libs, directories) = classpath.get.toList.partition(ClasspathUtilities.isArchive)
       val (embedLibs, embedDirectories) = jettyEmbedClasspath.get.toList.partition(ClasspathUtilities.isArchive)
@@ -69,8 +70,7 @@ class JettyEmbedWebProject( info: ProjectInfo ) extends DefaultWebProject(info) 
             copyFilesFlat(extraJars.get.map(_.asFile), webLibDirectory, log).right flatMap {
               copiedExtraLibs => {
                 fclean( warPath / "META-INF" / "MANIFEST.MF", log )
-                val startupFile = classesTargetDirectory / "net" / "usersource" / "war" / "Startup.class"
-                copyFile( startupFile, warPath / "net" / "usersource" / "war" / "Startup.class", log )
+                copyFile( startupFile, warPath / "net" / "usersource" / "jettyembed" / "Startup.class", log )
                 None.toLeft()
               }
             }
