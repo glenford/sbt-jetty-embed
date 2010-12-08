@@ -16,7 +16,7 @@ class JettyEmbedWebProject( info: ProjectInfo ) extends DefaultWebProject(info) 
   val pluginJar = "project" / "plugins" / "lib_managed" / "scala_2.7.7" / "jetty-embed-plugin-0.1-SNAPSHOT.jar"
 
   val jettyEmbedVersion = "6.1.22"
-  val jettyEmbedDependencies = "org.mortbay.jetty" % "jetty" % jettyEmbedVersion % "jettyEmbed, compile"
+  val jettyEmbedDependencies = "org.mortbay.jetty" % "jetty" % jettyEmbedVersion % "jettyEmbed, compile, test"
   val jettyEmbedConf = config("jettyEmbed")
   def jettyEmbedClasspath = managedClasspath(jettyEmbedConf)
   
