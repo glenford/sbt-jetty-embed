@@ -73,7 +73,12 @@ class JettyEmbedWebProject( info: ProjectInfo ) extends DefaultWebProject(info) 
             copyFilesFlat(extraJars.get.map(_.asFile), webLibDirectory, log).right flatMap {
               copiedExtraLibs => {
                 fclean( warPath / "META-INF" / "MANIFEST.MF", log )
-                tryAndCopyStartup(startupFile)
+                try {
+                  copyFile( startupFile, warPath / "net" / "usersource" / "jettyembed" / "Startup.class", log )
+                }
+                catch {
+                  case e: Exception => log.info( "Unable to copy startup class due to : " + e.getMessage )
+                }
                 None.toLeft()
               }
             }
@@ -82,14 +87,6 @@ class JettyEmbedWebProject( info: ProjectInfo ) extends DefaultWebProject(info) 
     }
   }
 
-  private def tryAndCopyStartup( startupFile: Path ) = {
-    try {
-                copyFile( startupFile, warPath / "net" / "usersource" / "jettyembed" / "Startup.class", log )
-    }
-    catch {
-      case e: Exception => log.info( "Unable to copy startup class due to : " + e.getMessage )
-    }
-  }
 
 }
 
