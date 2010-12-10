@@ -74,6 +74,11 @@ Update to ensure the jetty libs are downloaded and extract the startup code into
 	> jetty-embed-prepare
 
 
+This will copy a Startup file to
+
+	src/main/java/net/usersource/jettyembed/Startup.java 
+
+
 Then package your code as normal
 
 	sbt
