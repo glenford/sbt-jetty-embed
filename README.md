@@ -56,7 +56,7 @@ Extend the plugin instead of DefaultWebProject
 	class BasicProject(info :ProjectInfo) extends JettyEmbedWebProject(info)
 
 
-Create the plugins directory
+Create the plugins directory and file
 
 	mkdir project/plugins
 	vi project/plugins/Plugins.scala
@@ -77,6 +77,7 @@ Update to ensure the jetty libs are downloaded and extract the startup code into
 Then package your code as normal
 
 	sbt
+	> compile
 	> package
 
 Then run your new war
@@ -92,6 +93,18 @@ Then run your new war
 You can override the default port of 8080 by using -DjettyPort e.g.
 
 	$ java -DjettyPort=8000 -jar target/scala_2.8.1/basic-project_2.8.1-0.1.war 
+
+
+Using a different version of Jetty
+----------------------------------
+
+You can override the version to use by:
+
+	override val jettyEmbedVersion = "6.1.26"
+
+
+Note you can only currently use Jetty 6.x
+
 
 License
 -------
