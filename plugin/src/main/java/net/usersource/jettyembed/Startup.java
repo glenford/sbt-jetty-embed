@@ -2,12 +2,14 @@ package net.usersource.jettyembed;
 
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
-import org.mortbay.jetty.bio.SocketConnector;
+import org.mortbay.jetty.nio.SelectChannelConnector;
 import org.mortbay.jetty.webapp.WebAppClassLoader;
 import org.mortbay.jetty.webapp.WebAppContext;
+import org.mortbay.util.URIUtil;
 
 import java.net.URL;
 import java.security.ProtectionDomain;
+
 
 
 public class Startup {
@@ -17,19 +19,20 @@ public class Startup {
 
     public static void main(String[] args) throws Exception {
 
-        SocketConnector connector = new SocketConnector();
+        SelectChannelConnector connector = new SelectChannelConnector();
         connector.setPort(Integer.getInteger("jettyPort", JETTY_PORT));
         connector.setMaxIdleTime(Integer.getInteger("jettyMaxIdle", JETTY_MAX_IDLE));
+
+        Thread.currentThread().setContextClassLoader(WebAppClassLoader.class.getClassLoader());
 
         ProtectionDomain protectionDomain = Startup.class.getProtectionDomain();
         URL location = protectionDomain.getCodeSource().getLocation();
 
         WebAppContext context = new WebAppContext();
-        context.setContextPath("/");
+        WebAppClassLoader webAppClassLoader = new WebAppClassLoader(Startup.class.getClassLoader(),context);
+        context.setClassLoader(webAppClassLoader);
+        context.setContextPath(URIUtil.SLASH);
         context.setWar(location.toExternalForm());
-
-        WebAppClassLoader loader = new WebAppClassLoader( Startup.class.getClassLoader(), context );
-        context.setClassLoader(loader);
 
         Server server = new Server();
         server.setConnectors(new Connector[]{connector});
