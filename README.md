@@ -95,9 +95,24 @@ Then run your new war
 	2010-11-27 16:03:50.716:INFO::Started SocketConnector@0.0.0.0:8080
 
 
+
+
+Runtime Options
+---------------
+
 You can override the default port of 8080 by using -DjettyPort e.g.
 
 	$ java -DjettyPort=8000 -jar target/scala_2.8.1/basic-project_2.8.1-0.1.war 
+
+You can set the temporary directory (where jetty unpacks the war) by using -DjettyTempDir e.g.
+
+	$ java -DjettyTempDir=myTempDir -jar target/scala_2.8.1/basic-project_2.8.1-0.1.war
+
+You can override the default max idle time of 30000 milliseconds by using -DjettyMaxIdle e.g.
+
+	$ java -DjettyMaxIdle=60000 -jar target/scala_2.8.1/basic-project_2.8.1-0.1.war
+
+See SSL options below.
 
 
 Using SSL
@@ -150,10 +165,11 @@ You can then point your browser at https://localhost:8443/ (you will need to acc
 Using a different version of Jetty
 ----------------------------------
 
-You can override the version to use by:
+You can override the default 6.1.22 version of Jetty to use by:
 
 	override val jettyEmbedVersion = "6.1.26"
 
+In your project definition.
 
 Note you can only currently use Jetty 6.x
 
