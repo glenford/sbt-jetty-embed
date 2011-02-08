@@ -3,6 +3,7 @@ package net.usersource.jettyembed;
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.nio.SelectChannelConnector;
+import org.mortbay.jetty.security.SslSocketConnector;
 import org.mortbay.jetty.webapp.WebAppClassLoader;
 import org.mortbay.jetty.webapp.WebAppContext;
 import org.mortbay.util.URIUtil;
@@ -11,17 +12,39 @@ import java.net.URL;
 import java.security.ProtectionDomain;
 
 
+import org.mortbay.jetty.security.SslSelectChannelConnector;
+
+
 
 public class Startup {
 
-    private static final int JETTY_PORT = 8080;
+    private static final int JETTY_PORT_DEFAULT = 8080;
+    private static final String JETTY_PORT_NAME = "jettyPort";
+
+    private static final String JETTY_SSL_PORT_NAME = "jettySslPort";
+    private static final String JETTY_SSL_KEY_PASSWORD_NAME = "jettySslKeyPassword";
+    private static final String JETTY_SSL_KEY_STOREFILE_NAME = "jettySslKeyStoreFile";
+
+
     private static final int JETTY_MAX_IDLE = 30000;
+
 
     public static void main(String[] args) throws Exception {
 
         SelectChannelConnector connector = new SelectChannelConnector();
-        connector.setPort(Integer.getInteger("jettyPort", JETTY_PORT));
+        SslSelectChannelConnector sslConnector = null;
+        connector.setPort(Integer.getInteger(JETTY_PORT_NAME, JETTY_PORT_DEFAULT));
         connector.setMaxIdleTime(Integer.getInteger("jettyMaxIdle", JETTY_MAX_IDLE));
+
+        if( Integer.getInteger(JETTY_SSL_PORT_NAME) != null ) {
+            sslConnector = new SslSelectChannelConnector();
+            sslConnector.setPort(Integer.getInteger(JETTY_SSL_PORT_NAME));
+            sslConnector.setKeyPassword(System.getProperty(JETTY_SSL_KEY_PASSWORD_NAME));
+            String keystoreFile = System.getProperty(JETTY_SSL_KEY_STOREFILE_NAME);
+            if (keystoreFile != null && keystoreFile != "") {
+	            sslConnector.setKeystore(keystoreFile);
+            }
+        }
 
         Thread.currentThread().setContextClassLoader(WebAppClassLoader.class.getClassLoader());
 
@@ -35,7 +58,12 @@ public class Startup {
         context.setWar(location.toExternalForm());
 
         Server server = new Server();
-        server.setConnectors(new Connector[]{connector});
+        if( sslConnector != null ) {
+            server.setConnectors(new Connector[]{connector,sslConnector});
+        }
+        else {
+            server.setConnectors(new Connector[]{connector});
+        }
         server.setHandler(context);
         server.setSendServerVersion(false);
 
