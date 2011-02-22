@@ -64,7 +64,7 @@ Create the plugins directory and file
 	import sbt._
 
 	class Plugins(info: ProjectInfo) extends PluginDefinition(info) {
-  		val jettyEmbeddedWar = "net.usersource" % "jetty-embed-plugin" % "0.1"
+  		val jettyEmbeddedWar = "net.usersource" % "jetty-embed-plugin" % "0.2-SNAPSHOT"
 	}
 
 Update to ensure the jetty libs are downloaded and extract the startup code into your project
