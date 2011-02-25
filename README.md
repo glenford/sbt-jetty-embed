@@ -95,6 +95,14 @@ Then run your new war
 	2010-11-27 16:03:50.716:INFO::Started SocketConnector@0.0.0.0:8080
 
 
+NOTE:
+
+If you rebuild the plugin (ie. update) then you should run
+
+	sbt clean-plugins
+	sbt clean jetty-embed-prepare compile package
+
+This will make sure that you have the latest plugin, and ensure it extracts the latest startup file(s) into your project
 
 
 Runtime Options
@@ -111,6 +119,10 @@ You can set the temporary directory (where jetty unpacks the war) by using -Djet
 You can override the default max idle time of 30000 milliseconds by using -DjettyMaxIdle e.g.
 
 	$ java -DjettyMaxIdle=60000 -jar target/scala_2.8.1/basic-project_2.8.1-0.1.war
+
+You can run in interactive mode so you can press any key to exit by using -DjettyInteractive=true (default is false)
+
+	$ java -DjettyInteractive=true -jar target/scala_2.8.1/basic-project_2.8.1-0.1.war
 
 See SSL options below.
 
