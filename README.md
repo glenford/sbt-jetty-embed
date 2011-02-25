@@ -95,9 +95,10 @@ Then run your new war
 	2010-11-27 16:03:50.716:INFO::Started SocketConnector@0.0.0.0:8080
 
 
-NOTE:
+Important Note
+--------------
 
-If you rebuild the plugin (ie. update) then you should run
+If you rebuild the plugin (ie. build a new version) then you should in your own project run:
 
 	sbt clean-plugins
 	sbt clean jetty-embed-prepare compile package
