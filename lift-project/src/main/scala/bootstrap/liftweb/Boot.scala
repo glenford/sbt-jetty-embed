@@ -3,12 +3,10 @@ package bootstrap.liftweb
 import net.liftweb._
 import util._
 import Helpers._
-
 import common._
 import http._
-import sitemap._
-import Loc._
-import mapper._
+
+import net.usersource.jettyembed.comet.CurrentTime
 
 
 class Boot {
@@ -24,7 +22,7 @@ class Boot {
                              defaultXml,
                              attributes,
                              session) => {
-                               new BuildStatusRotate(session, Full("CurrentTime"),name, defaultXml, attributes)
+                               new CurrentTime(session, Full("CurrentTime"),name, defaultXml, attributes)
       }
     }
 

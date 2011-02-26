@@ -1,5 +1,5 @@
-package net.usersource.vbad.comet
 
+package net.usersource.jettyembed.comet
 
 import net.liftweb.http.js.JsCmds.SetHtml
 import scala.xml.NodeSeq
@@ -9,6 +9,8 @@ import net.liftweb.util.ActorPing
 import net.liftweb.util.Helpers._
 import org.joda.time.{DateTimeZone, DateTime}
 import org.joda.time.format.DateTimeFormatterBuilder
+
+case object Tick
 
 class CurrentTime(initSession: LiftSession,
                   initType: Box[String],
