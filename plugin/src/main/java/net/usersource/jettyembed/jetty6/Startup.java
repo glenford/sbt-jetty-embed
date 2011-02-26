@@ -1,4 +1,4 @@
-package net.usersource.jettyembed;
+package net.usersource.jettyembed.jetty6;
 
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
