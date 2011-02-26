@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:lift="http://liftweb.net/">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>sbt-jetty-embed test lift app</title>
+    <lift:CSS.blueprint />
+    <lift:CSS.fancyType />
+    <script id="jquery" src="/classpath/jquery.js" type="text/javascript"/>
+    <script id="json" src="/classpath/json.js" type="text/javascript"/>
+    <style type="text/css">
+/* <![CDATA[ */
+        body,
+        html {
+                margin:0;
+                padding:0;
+                color:#000;
+        }
+        #header {
+                padding:5px 10px;
+                background:#ddd;
+        }
+        h1 {
+                margin:0;
+        }
+        #sitepane {
+                float:left;
+                width:1024px;
+                padding:0px;
+        }
+        h2 {
+                margin:0 0 1em;
+        }
+        #statuspane {
+                float:right;
+                padding:0px;
+                background:#99c;
+        }
+        #infopane {
+                clear:both;
+                padding:5px 10px;
+                background:#cc9;
+        }
+        #infopane p {
+                margin:0;
+        }
+        * html #info-pane {
+                height:1px;
+        }
+  /* ]]> */
+  </style>
+  </head>
+  <body>
+    <div><lift:Msgs showAll="true"/><hr class="space"/></div>
+    <lift:bind name="content" />
+  </body>
+</html>
