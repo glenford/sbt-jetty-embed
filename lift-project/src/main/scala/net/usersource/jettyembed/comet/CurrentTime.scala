@@ -66,8 +66,6 @@ class CurrentTime(initSession: LiftSession,
       setPingIn
   }
 
-  //def this( initSession: LiftSession, initName:Box[String],initDefaultXml:NodeSeq,initAttributes:Map[String,String] ) =
-          //this( initSession, Box("CurrentTime"), initName, initDefaultXml, initAttributes )
 
   initCometActor(initSession, initType, initName, initDefaultXml, initAttributes)
 }
