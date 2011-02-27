@@ -11,32 +11,49 @@ import Attributes.Name.CLASS_PATH
 
 class JettyEmbedWebProject( info: ProjectInfo ) extends DefaultWebProject(info) {
 
+  sealed trait JettyVersion
+  case object JETTY6 extends JettyVersion
+  case object JETTY7 extends JettyVersion
+
   val description = "Creates a war with embedded jetty"
 
   // need to change this - brittle...
   val pluginJar = "project" / "plugins" / "lib_managed" / "scala_2.7.7" / "jetty-embed-plugin-0.3-SNAPSHOT.jar"
 
+
+  var jettyVersion: JettyVersion = JETTY7
+  var warMainClass = ""
+  var startupPath = ""
+
   val jetty6EmbedVersion = "6.1.22"
   val jetty6EmbedDependencies = "org.mortbay.jetty" % "jetty" % jetty6EmbedVersion % "jetty6Embed, compile, test"
   val jetty6EmbedSSLDependencies = "org.mortbay.jetty" % "jetty-sslengine" % jetty6EmbedVersion % "jetty6Embed, compile, test"
+  val jetty6config = config("jetty6Embed")
 
   val jetty7EmbedVersion = "7.3.0.v20110203"
   val jetty7EmbedDependencies = "org.eclipse.jetty" % "jetty-webapp" % jetty7EmbedVersion % "jetty7Embed, compile, test"
+  val jetty7config = config("jetty7Embed")
 
+  val jettyEmbedConf = jettyVersion match {
+    case JETTY6 => {
+      warMainClass = "net.usersource.jettyembed.jetty6.Startup"
+      startupPath = "net/usersource/jettyembed/jetty6/Startup.class"
+      jetty6config
+    }
+    case JETTY7 => {
+      warMainClass = "net.usersource.jettyembed.jetty7.Startup"
+      startupPath = "net/usersource/jettyembed/jetty7/Startup.class"
+      jetty7config
+    }
+  }
 
-  val jetty6EmbedConf = config("jetty6Embed")
-  val jetty7EmbedConf = config("jetty7Embed")
-  //def jettyEmbedClasspath = managedClasspath(jetty6EmbedConf)
-  def jettyEmbedClasspath = managedClasspath(jetty7EmbedConf)
+  def jettyEmbedClasspath = managedClasspath(jettyEmbedConf)
   
-  //val warMainClass = "net.usersource.jettyembed.jetty6.Startup"
-  val warMainClass = "net.usersource.jettyembed.jetty7.Startup"
   val warClassPath = "WEB_INF/classes/ WEB_INF/lib/"
   val warManifestVersion = "1.0"
 
   override def packageOptions = List(new MainClass(warMainClass), new ManifestAttributes((CLASS_PATH,warClassPath)))
 
-  //override def libraryDependencies = Set(jettyEmbedDependencies) ++ super.libraryDependencies
   override def libraryDependencies = super.libraryDependencies
 
   lazy val jettyEmbedPrepare = jettyEmbedPrepareAction
@@ -65,8 +82,7 @@ class JettyEmbedWebProject( info: ProjectInfo ) extends DefaultWebProject(info) 
       val webInfPath = warPath / "WEB-INF"
       val webLibDirectory = webInfPath / "lib"
       val classesTargetDirectory = webInfPath / "classes"
-      //val startupFile = classesTargetDirectory / "net" / "usersource" / "jettyembed" / "jetty6" / "Startup.class"
-      val startupFile = classesTargetDirectory / "net" / "usersource" / "jettyembed" / "jetty7" / "Startup.class"
+      val startupFile =Path.fromString(classesTargetDirectory, startupPath)
 
       val (libs, directories) = classpath.get.toList.partition(ClasspathUtilities.isArchive)
       val (embedLibs, embedDirectories) = jettyEmbedClasspath.get.toList.partition(ClasspathUtilities.isArchive)
@@ -86,8 +102,9 @@ class JettyEmbedWebProject( info: ProjectInfo ) extends DefaultWebProject(info) 
               copiedExtraLibs => {
                 fclean( warPath / "META-INF" / "MANIFEST.MF", log )
                 try {
-                  //copyFile( startupFile, warPath / "net" / "usersource" / "jettyembed" / "jetty6" / "Startup.class", log )
-                  copyFile( startupFile, warPath / "net" / "usersource" / "jettyembed" / "jetty7" / "Startup.class", log )
+                  log.debug( "Using startup file [" + startupFile + "]" )
+                  log.debug( "With path [" + startupPath + "]" )
+                  copyFile( startupFile, Path.fromString(warPath, startupPath), log )
                 }
                 catch {
                   case e: Exception => log.info( "Unable to copy startup class due to : " + e.getMessage )
