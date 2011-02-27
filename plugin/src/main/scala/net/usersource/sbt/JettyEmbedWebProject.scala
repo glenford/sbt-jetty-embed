@@ -9,12 +9,14 @@ import _root_.sbt.FileUtilities._
 import Attributes.Name.CLASS_PATH
 
 
+sealed trait JettyVersion
+case object JETTY6 extends JettyVersion
+case object JETTY7 extends JettyVersion
 
-class JettyEmbedWebProject( info: ProjectInfo ) extends DefaultWebProject(info) {
 
-  sealed trait JettyVersion
-  case object JETTY6 extends JettyVersion
-  case object JETTY7 extends JettyVersion
+class JettyEmbedWebProject( info: ProjectInfo, jettyEmbedVersion: JettyVersion ) extends DefaultWebProject(info) {
+
+  def this(info: ProjectInfo) = this(info,JETTY6)
 
   val description = "Creates a war with embedded jetty"
 
@@ -22,7 +24,7 @@ class JettyEmbedWebProject( info: ProjectInfo ) extends DefaultWebProject(info) 
   val pluginJar = "project" / "plugins" / "lib_managed" / "scala_2.7.7" / "jetty-embed-plugin-0.3-SNAPSHOT.jar"
 
 
-  var jettyVersion: JettyVersion = JETTY7
+  //val jettyEmbedVersion: JettyVersion = JETTY6
   var warMainClass = ""
   var startupPath = ""
 
@@ -35,7 +37,7 @@ class JettyEmbedWebProject( info: ProjectInfo ) extends DefaultWebProject(info) 
   val jetty7EmbedDependencies = "org.eclipse.jetty" % "jetty-webapp" % jetty7EmbedVersion % "jetty7Embed, compile, test"
   val jetty7config = config("jetty7Embed")
 
-  val jettyEmbedConf = jettyVersion match {
+  val jettyEmbedConf = jettyEmbedVersion match {
     case JETTY6 => {
       warMainClass = "net.usersource.jettyembed.jetty6.Startup"
       startupPath = "net/usersource/jettyembed/jetty6/Startup.class"
