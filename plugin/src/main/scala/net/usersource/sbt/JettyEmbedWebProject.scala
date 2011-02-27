@@ -9,6 +9,7 @@ import _root_.sbt.FileUtilities._
 import Attributes.Name.CLASS_PATH
 
 
+
 class JettyEmbedWebProject( info: ProjectInfo ) extends DefaultWebProject(info) {
 
   sealed trait JettyVersion
@@ -17,7 +18,7 @@ class JettyEmbedWebProject( info: ProjectInfo ) extends DefaultWebProject(info) 
 
   val description = "Creates a war with embedded jetty"
 
-  // need to change this - brittle...
+  // TODO: need to change this - brittle ... not sure how ... yet
   val pluginJar = "project" / "plugins" / "lib_managed" / "scala_2.7.7" / "jetty-embed-plugin-0.3-SNAPSHOT.jar"
 
 
