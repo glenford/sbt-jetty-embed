@@ -11,13 +11,6 @@ the webapp prepare task to also unpack the jetty jars into the root of the
 war file.
 
 
-! IMPORTANT !
--------------
-
-The repository is currently unavailable, I am working on it and it will be back
-up as soon as possible.
-
-
 Important Note
 --------------
 
@@ -41,7 +34,7 @@ First create the plugins directory and file
 	import sbt._
 
 	class Plugins(info: ProjectInfo) extends PluginDefinition(info) {
-		 val jettyEmbeddedWarRepo = "Embeded Jetty Repo" at "https://github.com/glenford/repo/raw/master/snapshots"
+		val jettyEmbeddedWarRepo = "Embeded Jetty Repo" at "https://github.com/glenford/repo/raw/master"
   		val jettyEmbeddedWar = "net.usersource" % "jetty-embed-plugin" % "0.3-SNAPSHOT"
 	}
 
