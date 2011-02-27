@@ -11,6 +11,13 @@ the webapp prepare task to also unpack the jetty jars into the root of the
 war file.
 
 
+! IMPORTANT !
+-------------
+
+The repository is currently unavailable, I am working on it and it will be back
+up as soon as possible.
+
+
 Important Note
 --------------
 
