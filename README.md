@@ -17,9 +17,10 @@ Important Note
 Requires SBT 0.7.5RC0 or later.  There are bugs in earlier versions of sbt
 which will impact the behaviour of this plugin.
 
-Lift users should be aware that to use Jetty-7 you will need an addition
-to your Boot.scala file (this is a Lift limitation).  Please see the 
-example lift-project.
+Lift users: if you are using Lift 2.3-M1 and newer it automatically detects
+Jetty 6, Jetty 7, and Servlet 3.0.  However earlier versions should be aware
+that to use Jetty-7 you will need an addition to your Boot.scala file.
+Please see the example lift-project.
 
 
 How to use in your own project
