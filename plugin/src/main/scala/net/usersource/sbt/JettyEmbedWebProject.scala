@@ -58,6 +58,8 @@ class JettyEmbedWebProject( info: ProjectInfo, jettyEmbedVersion: JettyVersion )
   override def packageOptions = List(new MainClass(warMainClass), new ManifestAttributes((CLASS_PATH,warClassPath)))
 
   override def libraryDependencies = super.libraryDependencies
+  
+  unzip(pluginJar, mainJavaSourcePath, "*.java", log)
 
   lazy val jettyEmbedPrepare = jettyEmbedPrepareAction
 
