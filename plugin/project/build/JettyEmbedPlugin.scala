@@ -1,8 +1,14 @@
 
+//
+// Copyright 2011, Glen Ford
+//
+// Apache 2.0 License
+// Please see README.md, LICENSE and NOTICE
+//
+
 import sbt._
 
 class JettyEmbedPluginProject(info: ProjectInfo) extends PluginProject(info) with IdeaProject {
-  //override def managedStyle = ManagedStyle.Maven
   val publishTo = Resolver.file("sbt-jetty-embed-repo", new java.io.File("repo-out")) 
 
   val jetty6Version = "6.1.22"

@@ -1,4 +1,11 @@
 
+//
+// Copyright 2011, Glen Ford
+//
+// Apache 2.0 License
+// Please see README.md, LICENSE and NOTICE
+//
+
 package net.usersource.jettyembed
 
 
