@@ -28,12 +28,7 @@ class JettyEmbedWebProject( info: ProjectInfo, jettyEmbedVersion: JettyVersion )
   val description = "Creates a war with embedded jetty"
 
   // TODO: need to change this - brittle ... not sure how ... yet
-  val pluginJar = "project" / "plugins" / "lib_managed" / "scala_2.7.7" / "jetty-embed-plugin-0.3-SNAPSHOT.jar"
-
-
-  //val jettyEmbedVersion: JettyVersion = JETTY6
-  var warMainClass = ""
-  var startupPath = ""
+  val pluginJar = "project" / "plugins" / "lib_managed" / "scala_2.7.7" / "sbt-jetty-embed-plugin-0.4.jar"
 
   val jetty6EmbedVersion = "6.1.22"
   val jetty6EmbedDependencies = "org.mortbay.jetty" % "jetty" % jetty6EmbedVersion % "jetty6Embed, compile, test"
@@ -44,16 +39,12 @@ class JettyEmbedWebProject( info: ProjectInfo, jettyEmbedVersion: JettyVersion )
   val jetty7EmbedDependencies = "org.eclipse.jetty" % "jetty-webapp" % jetty7EmbedVersion % "jetty7Embed, compile, test"
   val jetty7config = config("jetty7Embed")
 
-  val jettyEmbedConf = jettyEmbedVersion match {
+  val (jettyEmbedConf, startupPath, warMainClass) = jettyEmbedVersion match {
     case JETTY6 => {
-      warMainClass = "net.usersource.jettyembed.jetty6.Startup"
-      startupPath = "net/usersource/jettyembed/jetty6/Startup.class"
-      jetty6config
+      (jetty6config,"net/usersource/jettyembed/jetty6/Startup.class", "net.usersource.jettyembed.jetty6.Startup")
     }
     case JETTY7 => {
-      warMainClass = "net.usersource.jettyembed.jetty7.Startup"
-      startupPath = "net/usersource/jettyembed/jetty7/Startup.class"
-      jetty7config
+      (jetty7config,"net/usersource/jettyembed/jetty7/Startup.class", "net.usersource.jettyembed.jetty7.Startup")
     }
   }
 
