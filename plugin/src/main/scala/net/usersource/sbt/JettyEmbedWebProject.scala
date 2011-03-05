@@ -28,7 +28,7 @@ class JettyEmbedWebProject( info: ProjectInfo, jettyEmbedVersion: JettyVersion )
   val description = "Creates a war with embedded jetty"
 
   // TODO: need to change this - brittle ... not sure how ... yet
-  val pluginJar = "project" / "plugins" / "lib_managed" / "scala_2.7.7" / "sbt-jetty-embed-plugin-0.4.jar"
+  val pluginJar = "project" / "plugins" / "lib_managed" / "scala_2.7.7" / "sbt-jetty-embed-plugin-0.4.1.jar"
 
   val jetty6EmbedVersion = "6.1.22"
   val jetty6EmbedDependencies = "org.mortbay.jetty" % "jetty" % jetty6EmbedVersion % "jetty6Embed, compile, test"
@@ -56,8 +56,13 @@ class JettyEmbedWebProject( info: ProjectInfo, jettyEmbedVersion: JettyVersion )
   override def packageOptions = List(new MainClass(warMainClass), new ManifestAttributes((CLASS_PATH,warClassPath)))
 
   override def libraryDependencies = super.libraryDependencies
-  
-  unzip(pluginJar, mainJavaSourcePath, "*.java", log)
+
+  def managedSources = "src_managed" / "main"
+  def managedJavaSourcePath = managedSources / "java"
+  override def mainSourceRoots = super.mainSourceRoots +++ managedJavaSourcePath
+
+
+  unzip(pluginJar, managedJavaSourcePath, "*.java", log)
 
   lazy val jettyEmbedPrepare = jettyEmbedPrepareAction
 
@@ -65,7 +70,7 @@ class JettyEmbedWebProject( info: ProjectInfo, jettyEmbedVersion: JettyVersion )
 
   private def jettyEmbedPrepareTask = {
     task {
-      unzip(pluginJar, mainJavaSourcePath, "*.java", log)
+      unzip(pluginJar, managedJavaSourcePath, "*.java", log)
       None
     }
   }

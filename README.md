@@ -6,10 +6,9 @@ This is an sbt plugin to create 'executeable' war files by embedding jetty.
 It supports both Jetty-6 & Jetty-7.
 
 This plugin takes a brute force approach, it copies a startup source file
-into your source tree, which provides the jetty embed code.  It then overrides
-the webapp prepare task to also unpack the jetty jars into the root of the
-war file.
-
+into a local managed source tree, which provides the jetty embed code.  It
+then overrides the webapp prepare task to also unpack the jetty jars into
+the root of the war file.
 
 Important Note
 --------------
@@ -66,7 +65,7 @@ Update to ensure the jetty libs are downloaded and extract the startup code into
 
 This will copy a Startup file to
 
-	src/main/java/net/usersource/jettyembed/jetty6/Startup.java 
+	src_managed/main/java/net/usersource/jettyembed/jetty6/Startup.java 
 
 
 Then package your code as normal

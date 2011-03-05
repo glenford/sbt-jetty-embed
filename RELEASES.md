@@ -1,4 +1,10 @@
 
+0.4.1
+-----
+
+* moved startup source code to src_managed directory, rather than users src tree
+
+
 0.4
 ---
 
