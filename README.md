@@ -92,19 +92,19 @@ Runtime Options
 
 You can override the default port of 8080 by using -DjettyPort e.g.
 
-	$ java -DjettyPort=8000 -jar target/scala_2.8.1/basic-project_2.8.1-0.1.war 
+	$ java -DjettyPort=8000 -jar target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.4.war
 
 You can set the temporary directory (where jetty unpacks the war) by using -DjettyTempDir e.g.
 
-	$ java -DjettyTempDir=myTempDir -jar target/scala_2.8.1/basic-project_2.8.1-0.1.war
+	$ java -DjettyTempDir=myTempDir -jar target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.4.war
 
 You can override the default max idle time of 30000 milliseconds by using -DjettyMaxIdle e.g.
 
-	$ java -DjettyMaxIdle=60000 -jar target/scala_2.8.1/basic-project_2.8.1-0.1.war
+	$ java -DjettyMaxIdle=60000 -jar target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.4.war
 
 You can run in interactive mode so you can press any key to exit by using -DjettyInteractive=true (default is false)
 
-	$ java -DjettyInteractive=true -jar target/scala_2.8.1/basic-project_2.8.1-0.1.war
+	$ java -DjettyInteractive=true -jar target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.4.war
 
 
 
