@@ -122,6 +122,6 @@ License
 -------
 
 The sbt-jetty-embed plugin is licensed under the Apache 2 License
-
+Please see the LICENSE and NOTICE files.
 
 
