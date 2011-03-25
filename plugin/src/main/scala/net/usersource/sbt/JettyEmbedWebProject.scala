@@ -27,8 +27,40 @@ class JettyEmbedWebProject( info: ProjectInfo, jettyEmbedVersion: JettyVersion )
 
   val description = "Creates a war with embedded jetty"
 
-  // TODO: need to change this - brittle ... not sure how ... yet
-  val pluginJar = "project" / "plugins" / "lib_managed" / "scala_2.7.7" / "sbt-jetty-embed-plugin-0.4.1.jar"
+  def getIfFileThatStartsWithExistsInDir( path: String, filenamePrefix: String, filenameSuffix: String ): Option[String] = {
+    val dir = new File(path)
+    if( dir == null ) {
+      None
+    }
+    else if( dir.list == null ) {
+      None
+    }
+    else {
+      val matchingFilenames = dir.list.toList.filter( name => name.startsWith(filenamePrefix) && name.endsWith(filenameSuffix) )
+      if( matchingFilenames.length == 0 ) {
+        None
+      }
+      else {
+        Some(matchingFilenames.first)
+      }
+    }
+  }
+
+  val pluginJar: File = {
+    val normalPath = "project" + File.separator + "plugins" + File.separator + "lib_managed" + File.separator + "scala_2.7.7"
+
+    val filename = getIfFileThatStartsWithExistsInDir(normalPath , "sbt-jetty-embed-plugin-", ".jar")
+
+    if( filename.isDefined ) {
+      new File( normalPath + File.separator + filename.get )
+    }
+    else { 
+      val fname = getIfFileThatStartsWithExistsInDir(".." + File.separator + normalPath, "sbt-jetty-embed-plugin-", ".jar").getOrElse(
+        throw new Exception("Unable to find sbt-jetty-embed-plugin jar")
+      )
+      new File( ".." + File.separator + normalPath + File.separator + fname)
+    }
+  }
 
   val jetty6EmbedVersion = "6.1.22"
   val jetty6EmbedDependencies = "org.mortbay.jetty" % "jetty" % jetty6EmbedVersion % "jetty6Embed, compile, test"
