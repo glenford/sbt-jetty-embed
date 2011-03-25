@@ -1,4 +1,9 @@
 
+0.5
+---
+
+* fix for Issue-8 with multi-projects
+
 0.4.1
 -----
 
