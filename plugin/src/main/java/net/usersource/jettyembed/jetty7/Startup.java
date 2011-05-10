@@ -30,36 +30,61 @@ import java.security.ProtectionDomain;
 
 public class Startup {
 
-    private static final int JETTY_PORT_DEFAULT = 8080;
-
     private static final String JETTY_PORT_NAME = "jettyPort";
     private static final String JETTY_SSL_PORT_NAME = "jettySslPort";
     private static final String JETTY_SSL_KEY_PASSWORD_NAME = "jettySslKeyPassword";
     private static final String JETTY_SSL_KEY_STOREFILE_NAME = "jettySslKeyStoreFile";
     private static final String JETTY_INTERACTIVE_NAME = "jettyInteractive";
     private static final String JETTY_USE_NIO_NAME = "jettyNio";
+    private static final String JETTY_DEBUG_NAME = "jettyDebug";
     
     private static final int JETTY_MAX_IDLE = 30000;
 
+    private static boolean debug = false;
     private static boolean isInteractive = false;
-
     private static boolean usingNIO = true;
     private static boolean usingSSL = false;
-
     private static String tempDir = null;
+    private static int jettyPort = 8080;
+    private static int jettySSLPort = 0;
+    private static String keyFileName = null;
+    private static String keyPassword = null;
+    private static int maxIdleTime = 30000;
+
 
 
     private static void processOptions() {
-        Boolean useNIO = Boolean.getBoolean(JETTY_USE_NIO_NAME);
-        if( useNIO != null ) usingNIO = useNIO.booleanValue();
 
-        Boolean interactive = Boolean.getBoolean(JETTY_INTERACTIVE_NAME);
-        if( interactive != null ) isInteractive = interactive.booleanValue();
+        if( System.getProperty(JETTY_DEBUG_NAME) != null ) debug = Boolean.getBoolean(JETTY_DEBUG_NAME);
 
-        if( Integer.getInteger(JETTY_SSL_PORT_NAME) != null ) usingSSL = true;
+        if( System.getProperty(JETTY_USE_NIO_NAME) != null ) usingNIO = Boolean.getBoolean(JETTY_USE_NIO_NAME);
+
+        if( System.getProperty(JETTY_INTERACTIVE_NAME) != null ) isInteractive = Boolean.getBoolean(JETTY_INTERACTIVE_NAME);
 
         tempDir = System.getProperty("jettyTempDir");
+
+        jettyPort = Integer.getInteger(JETTY_PORT_NAME, jettyPort);
+        jettySSLPort = Integer.getInteger(JETTY_SSL_PORT_NAME,jettySSLPort);
+        usingSSL = (jettySSLPort != 0);
+
+        if( debug ) {
+            System.out.println("=================");
+            System.out.println("Jetty Embed Debug");
+            System.out.println("=================");
+            System.out.println("Interactive : " + isInteractive );
+            System.out.println("NIO : " + usingNIO );
+            System.out.println("HTTP Port : "  + jettyPort );
+            System.out.println("Max Idle Time : " + maxIdleTime );
+            System.out.println("SSL Port : " + (usingSSL ? jettySSLPort : "(disabled)") );
+            if(usingSSL) {
+                System.out.println("SSL Key Password : " + keyPassword );
+                System.out.println("SSL Key File Name : " + keyFileName );
+            }
+            System.out.println("=================");
+            System.setProperty("org.eclipse.jetty.util.log.DEBUG", "true");
+        }
     }
+
 
 
      private static Connector buildConnector() {
@@ -69,8 +94,8 @@ public class Startup {
         } else {
             connector = new SocketConnector();
         }
-        connector.setPort(Integer.getInteger(JETTY_PORT_NAME, JETTY_PORT_DEFAULT));
-        connector.setMaxIdleTime(Integer.getInteger("jettyMaxIdle", JETTY_MAX_IDLE));
+        connector.setPort(jettyPort);
+        connector.setMaxIdleTime(maxIdleTime);
         return connector;
     }
 
@@ -82,11 +107,11 @@ public class Startup {
         else {
             sslConnector = new SslSocketConnector();
         }
-        sslConnector.setPort(Integer.getInteger(JETTY_SSL_PORT_NAME));
-        sslConnector.setKeyPassword(System.getProperty(JETTY_SSL_KEY_PASSWORD_NAME));
-        String keystoreFileName = System.getProperty(JETTY_SSL_KEY_STOREFILE_NAME);
-        if (keystoreFileName != null && keystoreFileName.length() != 0 ) {
-            sslConnector.setKeystore(keystoreFileName);
+        sslConnector.setPort(jettySSLPort);
+        sslConnector.setMaxIdleTime(maxIdleTime);
+        sslConnector.setKeyPassword(keyPassword);
+        if (keyFileName != null && keyFileName.length() != 0 ) {
+            sslConnector.setKeystore(keyFileName);
         }
         return sslConnector;
     }

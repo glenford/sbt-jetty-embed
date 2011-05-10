@@ -76,10 +76,10 @@ Then package your code as normal
 
 Then run your new war
 
-	$ java -jar target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.5.war 
+	$ java -jar target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.6.war 
 	2011-03-03 21:10:56.157:INFO::Logging to STDERR via org.mortbay.log.StdErrLog
 	2011-03-03 21:10:56.158:INFO::jetty-6.1.x
-	2011-03-03 21:10:56.209:INFO::Extract file:/Users/glen/UserSource/Public/sbt-jetty-embed/basic-project/target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.5.war to /var/folders/Kg/KgM30VT2FvaHmZ1PuJ4D9++++TI/-Tmp-/Jetty_0_0_0_0_8080_sbt.jetty.embed.basic_2.8.1-0.5.war____.a3s7p1/webapp
+	2011-03-03 21:10:56.209:INFO::Extract file:/Users/glen/UserSource/Public/sbt-jetty-embed/basic-project/target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.6.war to /var/folders/Kg/KgM30VT2FvaHmZ1PuJ4D9++++TI/-Tmp-/Jetty_0_0_0_0_8080_sbt.jetty.embed.basic_2.8.1-0.6.war____.a3s7p1/webapp
 	2011-03-03 21:10:57.569:INFO::NO JSP Support for /, did not find org.apache.jasper.servlet.JspServlet
 	2011-03-03 21:10:57.754:INFO::Started SelectChannelConnector@0.0.0.0:8080
 
@@ -92,20 +92,27 @@ Runtime Options
 
 You can override the default port of 8080 by using -DjettyPort e.g.
 
-	$ java -DjettyPort=8000 -jar target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.5.war
+	$ java -DjettyPort=8000 -jar target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.6.war
 
 You can set the temporary directory (where jetty unpacks the war) by using -DjettyTempDir e.g.
 
-	$ java -DjettyTempDir=myTempDir -jar target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.5.war
+	$ java -DjettyTempDir=myTempDir -jar target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.6.war
 
 You can override the default max idle time of 30000 milliseconds by using -DjettyMaxIdle e.g.
 
-	$ java -DjettyMaxIdle=60000 -jar target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.5.war
+	$ java -DjettyMaxIdle=60000 -jar target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.6.war
 
 You can run in interactive mode so you can press any key to exit by using -DjettyInteractive=true (default is false)
 
-	$ java -DjettyInteractive=true -jar target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.5.war
+	$ java -DjettyInteractive=true -jar target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.6.war
 
+By default Jetty will use NIO, you can turn this off by using
+
+        $ java -DjettyNio=false -jar target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.6.war
+
+You can enable debug logging, both for the startup and Jetty by using
+
+	$ java -DjettyDebug=true -jar target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.6.war
 
 
 Using a different version of Jetty
