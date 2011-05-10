@@ -93,7 +93,7 @@ class JettyEmbedWebProject( info: ProjectInfo, jettyEmbedVersion: JettyVersion )
   def managedJavaSourcePath = managedSources / "java"
   override def mainSourceRoots = super.mainSourceRoots +++ managedJavaSourcePath
 
-
+  log.info("Extracting Jetty Startup files from [" + pluginJar.toString + "]")
   unzip(pluginJar, managedJavaSourcePath, "*.java", log)
 
   lazy val jettyEmbedPrepare = jettyEmbedPrepareAction
