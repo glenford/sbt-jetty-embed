@@ -1,4 +1,10 @@
 
+0.6
+---
+
+* fix for Issue-10
+* added debug option
+
 0.5
 ---
 
