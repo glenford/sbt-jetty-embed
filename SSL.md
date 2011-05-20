@@ -31,9 +31,9 @@ To demonstrate this using the basic project
 	Enter key password for <localhost>
 		(RETURN if same as keystore password):
 
-        $ sbt update jetty-embed-prepare package
+        $ sbt update package
 	...
-	$ java -jar -DjettySslPort=8443 -DjettySslKeyStoreFile=./keystore.jks -DjettySslKeyPassword=password target/scala_2.8.1/basic-project_2.8.1-0.1.war 
+	$ java -jar -DjettySslPort=8443 -DjettySslKeyStoreFile=./newkeystore.jks -DjettySslKeyPassword=password target/scala_2.8.1/sbt-jetty-embed-basic_2.8.1-0.6.1.war
 	2011-02-08 11:10:05.689:INFO::Logging to STDERR via org.mortbay.log.StdErrLog
 	2011-02-08 11:10:05.690:INFO::jetty-6.1.x
 	2011-02-08 11:10:05.743:INFO::Extract file:/***/***/***/sbt-jetty-embed/basic-project/target/scala_2.8.1/basic-project_2.8.1-0.1.war to /var/folders/Kg/KgM30VT2FvaHmZ1PuJ4D9++++TI/-Tmp-/Jetty_0_0_0_0_8080_basic.project_2.8.1.0.1.war____j5kafr/webapp

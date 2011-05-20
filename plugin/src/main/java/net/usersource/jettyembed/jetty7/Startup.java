@@ -37,9 +37,8 @@ public class Startup {
     private static final String JETTY_INTERACTIVE_NAME = "jettyInteractive";
     private static final String JETTY_USE_NIO_NAME = "jettyNio";
     private static final String JETTY_DEBUG_NAME = "jettyDebug";
+    private static final String JETTY_MAX_IDLE_NAME = "jettyMaxIdle";
     
-    private static final int JETTY_MAX_IDLE = 30000;
-
     private static boolean debug = false;
     private static boolean isInteractive = false;
     private static boolean usingNIO = true;
@@ -63,9 +62,16 @@ public class Startup {
 
         tempDir = System.getProperty("jettyTempDir");
 
+        maxIdleTime = Integer.getInteger(JETTY_MAX_IDLE_NAME,maxIdleTime);
+
         jettyPort = Integer.getInteger(JETTY_PORT_NAME, jettyPort);
         jettySSLPort = Integer.getInteger(JETTY_SSL_PORT_NAME,jettySSLPort);
         usingSSL = (jettySSLPort != 0);
+
+        if( usingSSL ) {
+            keyFileName = System.getProperty(JETTY_SSL_KEY_STOREFILE_NAME,keyFileName);
+            keyPassword = System.getProperty(JETTY_SSL_KEY_PASSWORD_NAME,keyPassword);
+        }
 
         if( debug ) {
             System.out.println("=================");

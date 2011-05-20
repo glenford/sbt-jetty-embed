@@ -1,4 +1,9 @@
 
+0.6.1
+-----
+
+* fix for SSL parameters
+
 0.6
 ---
 
