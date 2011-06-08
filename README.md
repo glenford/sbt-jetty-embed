@@ -13,8 +13,11 @@ the root of the war file.
 Important Note
 --------------
 
-Requires SBT 0.7.5RC0 or later.  There are bugs in earlier versions of sbt
-which will impact the behaviour of this plugin.
+!!
+!! This branch is now in flux as it is migrating to sbt-0.10.X
+!!
+!! Please use the sbt-0.7.X branch for sbt 0.7.5->0.7.7
+!!
 
 Lift users: if you are using Lift 2.3-M1 and newer it automatically detects
 Jetty 6, Jetty 7, and Servlet 3.0.  However earlier versions should be aware
